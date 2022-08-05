@@ -3,13 +3,12 @@
 The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segmentation](https://arxiv.org/abs/2103.10504) on Pytorch
 
 ![Output](./assets/outs.gif "Output")
+
 *Output of my implementation. (A) Ground Truth; (B) Prediction*
 
-## TransUNet
-- On various medical image segmentation tasks, the ushaped architecture, also known as U-Net, has become the de-facto standard and achieved tremendous success. However, due to the intrinsic
-locality of convolution operations, U-Net generally demonstrates limitations in explicitly modeling long-range dependency. [1]
-- TransUNet employs a hybrid CNN-Transformer architecture to leverage both detailed high-resolution spatial information from CNN features and the global context encoded by Transformers. [1]
-
+## UNETR
+- Locality of the receptive fields in convolutional layers still limits their learning capabilities to relatively small regions. Combining self-attention modules with convolutional layers has been proposed to improve the non-local modeling capability.[1]
+- UNETR utilizes a contracting-expanding pattern consisting of a stack of transformers as the encoder which is connected to a decoder via skip connections. As commonly used in NLP, the transformers operate on 1D sequence of input embeddings.[1]
 ## Model Architecture
 ![Model Architecture](./assets/arch.png "Model Architecure")
 
@@ -20,22 +19,31 @@ locality of convolution operations, U-Net generally demonstrates limitations in 
 - `pip install -r requirements.txt`
 
 ## Dataset
-- UFBA_UESC_DENTAL_IMAGES[2] dataset was used for training.
-- Dataset can be accessed by request[3].
+- BRATS 2016 and 2017[2] datasets were used for training.
+- Dataset were downloaded and splitted training/validation automatically by MONAI[3] from Medical Decathlon challenge[4].
 
 ## Training
 - Training process can be started with following command.
-    - `python main.py --mode train --model_path ./path/to/model --train_path ./path/to/trainset --test_path ./path/to/testset `
+    - `python main.py --mode train --model_path ./path/to/model.pth --dataset_path ./path/to/dataset`
+- Dataset will be downloaded to given dataset path if not exist.
+
+## Evaluation
+- Trained model will be evaluated after the training process.
+- Pretrained model(s) can be evaluated with following command too.
+    - `python main.py --mode evaluate --model_path ./path/to/model.pth --dataset_path ./path/to/dataset`
 
 ## Inference
-- After model is trained, inference can be run with following command.
-    - `python main.py --mode inference --model_path ./path/to/model --image_path ./path/to/image`
+- After model is trained, inference can be run for single data with following command.
+    - `python main.py --mode inference --model_path ./path/to/model --data_path ./path/to/image`
+- Results will be saved to `./results/<data_name>/` for each class (TC/WT/ET).
     
 ## Other Implementations
+- [Original Implentation](https://github.com/Project-MONAI/research-contributions/tree/main/UNETR/BTCV)
 - [Self Attention CV / The AI Summer](https://github.com/The-AI-Summer/self-attention-cv)
-- [SOTA Vision / 04RR](https://github.com/04RR/SOTA-Vision)
+- [SALMON v.2: Segmentation deep learning ALgorithm based on MONai toolbox](https://github.com/davidiommi/Pytorch--3D-Medical-Images-Segmentation--SALMON)
 
 ## References
-- [1] [TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation](https://arxiv.org/abs/2102.04306)
-- [2] [Automatic segmenting teeth in X-ray images: Trends, a novel data set, benchmarking and future perspectives](https://www.sciencedirect.com/science/article/abs/pii/S0957417418302252)
-- [3] [GitHub Repository of Dataset](https://github.com/IvisionLab/dental-image)
+- [1] [UNETR: Transformers for 3D Medical Image Segmentation](https://arxiv.org/abs/2103.10504)
+- [2] [BRATS](https://www.med.upenn.edu/cbica/brats2020/previous.html)
+- [3] [MONAI](https://monai.io/)
+- [4] [Medical Decathlon](http://medicaldecathlon.com/)
