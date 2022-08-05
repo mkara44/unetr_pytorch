@@ -20,8 +20,8 @@ from monai.transforms import (
 
 # Additional Scripts
 from train_unetr import UneTRSeg
+from utils.utils import create_folder_if_not_exist
 
-# from utils.utils import thresh_func
 from config import cfg
 
 
@@ -30,21 +30,23 @@ class SegInference:
 
     def __init__(self, model_path, device):
         self.device = device
+        self.img_dim = cfg.unetr.img_dim
 
         self.unetr = UneTRSeg(device)
         self.unetr.load_model(model_path)
         self.unetr.model.eval()
 
-        if not os.path.exists('./results'):
-            os.mkdir('./results')
+        create_folder_if_not_exist('./results')
 
-    def infer(self, path, merged=True, save=True):
+    def infer(self, path, save=True):
 
         data = self.preprocess(path)
         with torch.no_grad():
             pred_mask = self.inferer(inputs=data, network=self.unetr.model)
             pred_mask = self.postprocess(pred_mask)
-            print(pred_mask[0][0].shape)
+
+        if save:
+            self.save_masks(path, pred_mask)
 
         return pred_mask
 
@@ -77,12 +79,22 @@ class SegInference:
             ]
         )
 
-        pred_mask = [transform(i) for i in decollate_batch(pred_mask)]
+        pred_mask = [transform(i).cpu().detach().numpy() for i in decollate_batch(pred_mask)]
         return pred_mask
 
-    def save_preds(self, preds):
-        folder_path = './results/' + str(datetime.datetime.utcnow()).replace(' ', '_')
+    def save_masks(self, path, pred_mask):
+        name = path.split('/')[-1].split('.')[0]
+        create_folder_if_not_exist(os.path.join('./results', name))
+        create_folder_if_not_exist(os.path.join('./results', name, 'TC'))
+        create_folder_if_not_exist(os.path.join('./results', name, 'WT'))
+        create_folder_if_not_exist(os.path.join('./results', name, 'ET'))
 
-        os.mkdir(folder_path)
-        for name, pred_mask in preds.items():
-            cv2.imwrite(f'{folder_path}/{name}', pred_mask)
+        for idx in range(self.img_dim[-1]):
+            cv2.imwrite(os.path.join('./results', name, 'TC', f'{idx}.png'),
+                        pred_mask[0][0][..., idx] * 255)
+
+            cv2.imwrite(os.path.join('./results', name, 'WT', f'{idx}.png'),
+                        pred_mask[0][1][..., idx] * 255)
+
+            cv2.imwrite(os.path.join('./results', name, 'ET', f'{idx}.png'),
+                        pred_mask[0][2][..., idx] * 255)

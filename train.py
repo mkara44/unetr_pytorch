@@ -27,7 +27,7 @@ class TrainTestPipe:
             image = image.to(self.device)
             label = label.to(self.device)
 
-            loss, cls_pred = step_func(image=image, label=label)
+            loss, pred_mask = step_func(image=image, label=label)
 
             total_loss += loss
             t.update()

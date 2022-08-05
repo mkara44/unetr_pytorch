@@ -109,6 +109,7 @@ def get_dataloader(path, train):
                                section="training" if train else "validation",
                                download=download,
                                cache_rate=0.0)
+
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
     return loader
@@ -163,3 +164,8 @@ class EpochCallback:
             if self.patience is not None and self.not_improved_epoch >= self.patience:
                 print("Training was stopped by callback!")
                 self.end_training = True
+
+
+def create_folder_if_not_exist(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
