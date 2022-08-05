@@ -2,10 +2,11 @@
 # Brain Tumor Segmentation on BRATS with UNETR
 The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segmentation](https://arxiv.org/abs/2103.10504) on Pytorch
 
+<p align="center">
 ![Output](./assets/outs.gif "Output")
 
 *Output of my implementation. (A) Ground Truth; (B) Prediction*
-
+</p>
 ## UNETR
 - Locality of the receptive fields in convolutional layers still limits their learning capabilities to relatively small regions. Combining self-attention modules with convolutional layers has been proposed to improve the non-local modeling capability.[1]
 - UNETR utilizes a contracting-expanding pattern consisting of a stack of transformers as the encoder which is connected to a decoder via skip connections. As commonly used in NLP, the transformers operate on 1D sequence of input embeddings.[1]
