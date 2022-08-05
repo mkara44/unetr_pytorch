@@ -1,4 +1,3 @@
-# will be updated
 # Brain Tumor Segmentation on BRATS with UNETR
 The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segmentation](https://arxiv.org/abs/2103.10504) on Pytorch
 
