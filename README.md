@@ -1,9 +1,9 @@
 # will be updated
-# Panoramic Dental X-Ray Image Semantic Segmentation with TransUnet
-The unofficial implementation of [TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation](https://arxiv.org/abs/2102.04306) on Pytorch
+# Brain Tumor Segmentation on BRATS with UNETR
+The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segmentation](https://arxiv.org/abs/2103.10504) on Pytorch
 
-![Output](./assets/outs.png "Output")
-*Output of my implementation. (A) Original X-Ray Image; (B) Merged Image of the Predicted Segmentation Map and Original X-Ray; (C) Ground Truth; (D) Predicted Segmentation Map*
+![Output](./assets/outs.gif "Output")
+*Output of my implementation. (A) Ground Truth; (B) Prediction*
 
 ## TransUNet
 - On various medical image segmentation tasks, the ushaped architecture, also known as U-Net, has become the de-facto standard and achieved tremendous success. However, due to the intrinsic
