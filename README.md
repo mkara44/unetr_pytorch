@@ -11,7 +11,7 @@ The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segme
 ## Model Architecture
 ![Model Architecture](./assets/arch.png "Model Architecure")
 
-*TransUNet Architecture Figure from Official Paper*
+*UNETR Architecture Figure from Official Paper*
 
 ## Dependencies
 - Python 3.6+
@@ -33,7 +33,7 @@ The unofficial implementation of [UNETR: Transformers for 3D Medical Image Segme
 
 ## Inference
 - After model is trained, inference can be run for single data with following command.
-    - `python main.py --mode inference --model_path ./path/to/model --data_path ./path/to/image`
+    - `python main.py --mode inference --model_path ./path/to/model.pth --data_path ./path/to/image`
 - Results will be saved to `./results/<data_name>/` for each class (TC/WT/ET).
     
 ## Other Implementations
